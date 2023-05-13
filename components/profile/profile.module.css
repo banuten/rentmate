@@ -1,0 +1,37 @@
+.profile {
+    /* margin: 3rem auto; */
+    text-align: center;
+    color: #006400;
+    padding: 2rem;
+    /* border: 1px solid #006400; */
+    border-radius: 6px;
+    /* set font color to dark green */
+    color: #006400;
+  }
+  
+  .profile h1 {
+    font-size: 5rem;
+    margin: 0;
+  }
+  
+  .profile h2 {
+    font-size: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .profile ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .profile li {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #006400;
+    color: #fff;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  
