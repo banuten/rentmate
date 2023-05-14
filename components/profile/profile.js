@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./profile.module.css";
 import ProfileDetailsForm from "./profile-details-form";
 import TenantDetailsForm from "./tenant-details-form";
@@ -10,25 +10,10 @@ const Profile = (props) => {
   const [showTickets, setShowTickets] = useState(true);
   const [showTenantDetails, setShowTenantDetails] = useState(false);
   const [showNewTicketForm, setShowNewTicketForm] = useState(false);
+  const [numTickets, setNumTickets] = useState(props.ticketData.length);
+
 
   // const rentalProperty = "123 Main St";
-  const activeTickets = [
-    {
-      id: 1,
-      subject: "Leaky faucet",
-      status: "Open",
-    },
-    {
-      id: 2,
-      subject: "Broken window",
-      status: "In progress",
-    },
-    {
-      id: 3,
-      subject: "Clogged drain",
-      status: "Closed",
-    },
-  ];
 
   const handleShowDetails = () => {
     setShowProfileDetails(!showProfileDetails);
@@ -45,6 +30,13 @@ const Profile = (props) => {
   const handleShowNewTicketForm = () => {
     setShowNewTicketForm(!showNewTicketForm);
   };
+
+  useEffect(() => {
+    if (props.ticketData.length > numTickets) {
+      setShowTickets(true);
+      setNumTickets(props.ticketData.length);
+    }
+  }, [props.ticketData.length, numTickets]);
 
   return (
     <div className={classes.profile}>

@@ -1,8 +1,15 @@
 .starting {
-  margin: 3rem auto;
   text-align: center;
+  padding: 2rem;
 }
 
 .starting h1 {
-  font-size: 5rem;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.starting p {
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  margin-bottom: 2rem;
 }
