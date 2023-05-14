@@ -4,7 +4,7 @@ import { connectToDatabase } from "../../../lib/db";
 
 
 function ProfilePage(props) {
-  return <Profile userData={props.userData}/>;
+  return <Profile userData={props.userData} tenantData={props.tenantData}/>;
 }
 
 export async function getServerSideProps(context) {
@@ -24,8 +24,8 @@ export async function getServerSideProps(context) {
 
   const client = await connectToDatabase();
   const db = client.db();
-  const userDetailsCollection = db.collection("userDetails");
 
+  const userDetailsCollection = db.collection("userDetails");
   const userData = await userDetailsCollection
   .findOne(
     { email: email },
@@ -42,8 +42,26 @@ export async function getServerSideProps(context) {
   );
   console.log(userData);
 
+  const tenantDetailsCollection = db.collection("tenantDetails");
+  const tenantData = await tenantDetailsCollection
+  .findOne(
+    { email: email },
+    {
+      projection: {
+        tenant_firstName: 1,
+        tenant_lastName: 1,
+        tenant_address: 1,
+        tenant_phone: 1,
+        landlord_email: 1,
+        _id: 0,
+      },
+    }
+  );
+  console.log(userData); 
+  console.log(tenantData); 
+
   return {
-    props: { userData },
+    props: { userData, tenantData },
   };
 }
 

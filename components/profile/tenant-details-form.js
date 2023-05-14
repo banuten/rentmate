@@ -42,19 +42,19 @@ const TenantDetailsForm = (props) => {
     <form className={classes.form} onSubmit={submitHandler}>
       <input type='hidden' name='email' value={props.email} />
       <div className={classes.control}>
-        <label htmlFor='firstName'>First Name</label>
+        <label htmlFor='firstName'>Tenant's First Name</label>
         <input type='text' id='firstName' ref={firstNameInputRef} />
       </div>
       <div className={classes.control}>
-        <label htmlFor='lastName'>Last Name</label>
+        <label htmlFor='lastName'>Tenant's Last Name</label>
         <input type='text' id='lastName' ref={lastNameInputRef} />
       </div>
       <div className={classes.control}>
-        <label htmlFor='address'>Address</label>
+        <label htmlFor='address'>Tenant's Address</label>
         <input type='text' id='address' ref={addressInputRef} />
       </div>
       <div className={classes.control}>
-        <label htmlFor='phone'>Phone Number</label>
+        <label htmlFor='phone'>Tenant's Phone Number</label>
         <input type='text' id='phone' ref={phoneInputRef} />
       </div>
       <div className={classes.action}>

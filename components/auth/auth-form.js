@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { signIn, getSession } from "next-auth/client";
+import { signIn } from "next-auth/client";
 import { useRouter } from "next/router";
-
+import { getSession } from "next-auth/client";
 import classes from "./auth-form.module.css";
 
 async function createUser(email, password) {
@@ -50,9 +50,20 @@ function AuthForm() {
       });
 
       if (!result.error) {
-        const session = await getSession(); // get the user's session
-        const userId = session.user.userId; // get the userId from the session
-        router.replace(`/user/${userId}`); // redirect to user page with userId
+        const session = await getSession();
+        const userIdResponse = await fetch('/api/user/get-userid', {
+          headers: {
+            'Authorization': `Bearer ${session.accessToken}`,
+          },
+        });
+    
+        if (!userIdResponse.ok) {
+          console.log('Error getting user ID');
+          return;
+        }
+    
+        const { userId } = await userIdResponse.json();
+        router.replace(`/user/${userId}`); 
       }
     } else {
       try {
