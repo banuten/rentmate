@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import classes from './profile-details-form.module.css';
 
-const ProfileDetailsForm = (props) => {
+const TenantDetailsForm = (props) => {
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
   const addressInputRef = useRef();
@@ -11,15 +11,15 @@ const ProfileDetailsForm = (props) => {
     event.preventDefault();
   
     const formData = {
-      firstName: firstNameInputRef.current.value,
-      lastName: lastNameInputRef.current.value,
-      address: addressInputRef.current.value,
-      phone: phoneInputRef.current.value,
-      email: event.target.email.value
+        tenant_firstName: firstNameInputRef.current.value,
+        tenant_lastName: lastNameInputRef.current.value,
+        tenant_address: addressInputRef.current.value,
+        tenant_phone: phoneInputRef.current.value,
+        landlord_email: event.target.email.value
     };
   
     try {
-      const response = await fetch('/api/user/add-user', {
+      const response = await fetch('/api/user/add-tenant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -28,10 +28,10 @@ const ProfileDetailsForm = (props) => {
       });
   
       if (!response.ok) {
-        throw new Error('Error updating profile');
+        throw new Error('Error adding tenant details');
       }
   
-      alert('Profile updated successfully');
+      alert('Tenant details added successfully');
     } catch (error) {
       alert(error.message);
     }
@@ -58,10 +58,10 @@ const ProfileDetailsForm = (props) => {
         <input type='text' id='phone' ref={phoneInputRef} />
       </div>
       <div className={classes.action}>
-        <button>Update Profile</button>
+        <button>Add Tenant</button>
       </div>
     </form>
   );
 };
 
-export default ProfileDetailsForm;
+export default TenantDetailsForm;

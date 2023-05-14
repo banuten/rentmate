@@ -1,30 +1,49 @@
-import { getSession } from 'next-auth/client';
+import { getSession } from "next-auth/client";
+import Profile from "../../../components/profile/profile";
+import { connectToDatabase } from "../../../lib/db";
 
-import UserProfile from '../../../components/profile/user-profile';
-import Profile from '../../../components/profile/profile';
 
 function ProfilePage(props) {
-  return <Profile email={props.email} />;
-  // return <UserProfile />;
+  return <Profile userData={props.userData}/>;
 }
+
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-
-  // console.log(session)
 
   if (!session) {
     return {
       redirect: {
-        destination: '/auth',
+        destination: "/auth",
         permanent: false,
       },
     };
   }
 
-  const email = session.user.email; // Get the userId from the session
+  // const userData = await fetchUserData();
+  const email = session.user.email;
+
+  const client = await connectToDatabase();
+  const db = client.db();
+  const userDetailsCollection = db.collection("userDetails");
+
+  const userData = await userDetailsCollection
+  .findOne(
+    { email: email },
+    {
+      projection: {
+        firstName: 1,
+        lastName: 1,
+        address: 1,
+        phone: 1,
+        email: 1,
+        _id: 0,
+      },
+    }
+  );
+  console.log(userData);
 
   return {
-    props: { session, email }, // Include userId in the props
+    props: { userData },
   };
 }
 
