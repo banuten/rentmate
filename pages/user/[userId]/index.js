@@ -2,9 +2,14 @@ import { getSession } from "next-auth/client";
 import Profile from "../../../components/profile/profile";
 import { connectToDatabase } from "../../../lib/db";
 
-
 function ProfilePage(props) {
-  return <Profile userData={props.userData} tenantData={props.tenantData}/>;
+  return (
+    <Profile
+      userData={props.userData}
+      tenantData={props.tenantData}
+      ticketData={props.ticketData}
+    />
+  );
 }
 
 export async function getServerSideProps(context) {
@@ -26,8 +31,7 @@ export async function getServerSideProps(context) {
   const db = client.db();
 
   const userDetailsCollection = db.collection("userDetails");
-  const userData = await userDetailsCollection
-  .findOne(
+  const userData = await userDetailsCollection.findOne(
     { email: email },
     {
       projection: {
@@ -43,8 +47,7 @@ export async function getServerSideProps(context) {
   console.log(userData);
 
   const tenantDetailsCollection = db.collection("tenantDetails");
-  const tenantData = await tenantDetailsCollection
-  .findOne(
+  const tenantData = await tenantDetailsCollection.findOne(
     { email: email },
     {
       projection: {
@@ -57,11 +60,18 @@ export async function getServerSideProps(context) {
       },
     }
   );
-  console.log(userData); 
-  console.log(tenantData); 
+
+  const ticketsCollection = db.collection("tickets");
+  const ticketData = await ticketsCollection
+    .find({ landlord_email: email }, { projection: { _id: 0 } })
+    .toArray();
+
+  console.log(userData);
+  console.log(tenantData);
+  console.log(ticketData);
 
   return {
-    props: { userData, tenantData },
+    props: { userData, tenantData, ticketData },
   };
 }
 

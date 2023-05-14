@@ -1,10 +1,34 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/client';
+import { useState, useEffect } from 'react';
 
 import classes from './main-navigation.module.css';
 
 function MainNavigation() {
   const [session, loading] = useSession();
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    async function getUserId() {
+      if (!session) return;
+
+      const userIdResponse = await fetch('/api/user/get-userid', {
+        headers: {
+          'Authorization': `Bearer ${session.accessToken}`,
+        },
+      });
+
+      if (!userIdResponse.ok) {
+        console.log('Error getting user ID');
+        return;
+      }
+
+      const { userId } = await userIdResponse.json();
+      setUserId(userId);
+    }
+
+    getUserId();
+  }, [session]);
 
   function logoutHandler() {
     signOut();
@@ -26,7 +50,7 @@ function MainNavigation() {
           )}
           {session && (
             <li>
-              <Link href='/profile'>Profile</Link>
+              <Link href={`/user/${userId}`}>Profile</Link>
             </li>
           )}
           {session && (

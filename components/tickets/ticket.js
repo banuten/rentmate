@@ -1,8 +1,8 @@
 const ActiveTicket = ({ ticket }) => {
     return (
-      <li key={ticket.id}>
-        <span>{ticket.subject}</span>
-        <span>{ticket.status}</span>
+      <li key={ticket.ticket_id}>
+        <span>{ticket.ticket_issue}</span>
+        <span>{ticket.ticket_status}</span>
       </li>
     );
   };

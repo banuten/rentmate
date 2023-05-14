@@ -6,7 +6,7 @@
         <h2>Currently active tickets:</h2>
         <ul>
           {tickets.map((ticket) => (
-            <Ticket key={ticket.id} ticket={ticket} />
+            <Ticket key={ticket.ticket_id} ticket={ticket} />
           ))}
         </ul>
       </>
